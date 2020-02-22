@@ -8,7 +8,9 @@ import {
     Picker,
     TextInput,
     ScrollView,
-    Alert
+    Alert,
+    ActivityIndicator,
+    Button,
 } from 'react-native';
 
 import PlacesList from '../components/placesItem';
@@ -21,6 +23,9 @@ import {
 
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from "react-native-vector-icons/FontAwesome5";
+import { GoogleAutoComplete } from 'react-native-google-autocomplete';
+import LocationItem from '../components/LocationItem';
+// import API_KEY from '../key';
 
 
 export default class Places extends React.Component {
@@ -70,14 +75,47 @@ export default class Places extends React.Component {
                             end: { x: 1, y: 0 },
                         }}
                     />
+
                     <View style={{ backgroundColor: '#fff', paddingHorizontal: 12}}>
-                        <SearchBar
+                        {/* <SearchBar
                             placeholder="Nhập địa điểm..."
                             onChangeText={this.updateSearch}
                             value={search}
                             platform='android'
-                        />
-                        
+                        /> */}
+
+                        <GoogleAutoComplete apiKey='AIzaSyBLHmn1n0S57YXvJF9o_NEuyE7BJgrH_QM' debounce={500}>
+                            {({ 
+                                handleTextChange, 
+                                locationResults, 
+                                fetchDetails, 
+                                isSearching,
+                                inputValue 
+                            }) => (
+                                <React.Fragment>
+                                    <View>
+                                        <TextInput
+                                        style={styles.textInput} 
+                                        placeholder="Search a places.."
+                                        onChangeText={handleTextChange}
+                                        value={inputValue}
+                                        />
+                                        {/* <Button title='Clear' onPress={} /> */}
+                                    </View>
+                                    {isSearching && <ActivityIndicator />}
+                                    <ScrollView>
+                                        {locationResults.map(el => (
+                                            <LocationItem
+                                                {...el}
+                                                key={el.id}
+                                                fetchDetails={fetchDetails}
+                                            />
+                                        ))}
+                                    </ScrollView>
+                                </React.Fragment>
+                            )}
+                        </GoogleAutoComplete>
+
                         <View style={styles.labelDropdown}>
                             <Icon
                                 style={styles.customIco}
@@ -161,6 +199,7 @@ export default class Places extends React.Component {
                             keyExtractor={item => item.id}
                             contentContainerStyle={styles.container}
                         />
+                        
                     </View>
                 </ScrollView>
             </View>
@@ -212,5 +251,12 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontFamily: 'Montserrat-Medium',
         color: '#111'
+    },
+    textInput: {
+        height: 50,
+        width: '100%',
+        borderWidth: 1,
+        paddingHorizontal: 16,
+        marginTop: 10,
     },
 });
