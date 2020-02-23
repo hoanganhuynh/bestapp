@@ -9,13 +9,20 @@ import {
   StyleSheet, 
   Image,
   PermissionsAndroid,
-  Platform
+  Platform,
+  YellowBoxs,
+  YellowBox
 } from 'react-native';
 
 
 const AppContainer = createAppContainer(AppNavigator);
+YellowBox.ignoreWarnings(['Warning: ReactNative.createElement']);
 
 export default class App extends React.Component {
+  constructor(){
+    super();
+
+  }
   // state = {
   //   currentLongitude: 'unknown',//Initial Longitude
   //   currentLatitude: 'unknown',//Initial Latitude
@@ -82,7 +89,9 @@ export default class App extends React.Component {
   // componentWillUnmount = () => {
   //     Geolocation.clearWatch(this.watchID);
   //}
+
   render() {
     return <AppContainer />;
+  
   }
 }
