@@ -24,6 +24,7 @@ import {GoogleAutoComplete} from 'react-native-google-autocomplete';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import LocationItem from '../components/LocationItem';
 import GooglePlacesAutoBar from '../src/components/GooglePlacesAutoBar';
+import AutoCompleteCustom from '../src/components/AutoCompleteCustom';
 // import API_KEY from '../key';
 
 export default class Places extends React.Component {
@@ -55,7 +56,7 @@ export default class Places extends React.Component {
         {id: 6, name: 'Star 2 Coffee', address: '47 Mậu Thân, Xuân Khánh, Ninh Kiều, Tp Cần Thơ' },
         {id: 7, name: 'Star 3 Coffee', address: '47 Mậu Thân, Xuân Khánh, Ninh Kiều, Tp Cần Thơ' },
         {id: 8, name: 'Star 4 Coffee', address: '47 Mậu Thân, Xuân Khánh, Ninh Kiều, Tp Cần Thơ' },
-      ],};
+      ]};
   }
   render() {
     const { search } = this.state;
@@ -74,48 +75,15 @@ export default class Places extends React.Component {
               end: { x: 1, y: 0 },
             }}
           />
-          <View style={{ backgroundColor: '#fff', paddingHorizontal: 12}}>
-
+          <AutoCompleteCustom />
+          <View style={{backgroundColor: '#fff', paddingHorizontal: 12}}>
             {/*<SearchBar*/}
             {/*placeholder="Nhập địa điểm..."*/}
             {/*onChangeText={this.updateSearch}*/}
             {/*value={search}*/}
             {/*platform='android'*/}
             {/*/>*/}
-            <GoogleAutoComplete
-              apiKey="AIzaSyBLHmn1n0S57YXvJF9o_NEuyE7BJgrH_QM"
-              debounce={500}>
-              {({
-                handleTextChange,
-                locationResults,
-                  fetchDetails,
-                  isSearching,
-                  inputValue
-                }) => (
-                <React.Fragment>
-                  <View>
-                    <TextInput
-                      style={styles.textInput}
-                      placeholder="Search a places.."
-                      onChangeText={handleTextChange}
-                      value={inputValue}
-                    />
-                    {/* <Button title='Clear' onPress={} /> */}
-                  </View>
-                  {isSearching && <ActivityIndicator />}
-                  <ScrollView>
-                    {locationResults.map(el => (
-                      <LocationItem
-                        {...el}
-                        key={el.id}
-                        fetchDetails={fetchDetails}
-                      />
-                    ))}
-                  </ScrollView>
-                </React.Fragment>
-              )}
-            </GoogleAutoComplete>
-            <GooglePlacesAutoBar/>
+
             <View style={styles.labelDropdown}>
               <Icon
                 style={styles.customIco}
@@ -199,7 +167,6 @@ export default class Places extends React.Component {
               keyExtractor={item => item.id}
               contentContainerStyle={styles.container}
             />
-
           </View>
         </ScrollView>
       </View>

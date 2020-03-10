@@ -6,10 +6,10 @@ import Place from './screens/place';
 
 const AppNavigator = createStackNavigator({
   Places: {
-    screen: Places
+    screen: Places,
   },
   Place: {
-    screen: Place
+    screen: Place,
   },
   // AutoCompleteSearch: {
   //     screen: AutoCompleteSearch

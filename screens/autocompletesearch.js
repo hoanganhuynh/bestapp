@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text, TextInput } from "react-native";
+import React from 'react';
+import {View, Text, TextInput} from 'react-native';
 import Map from './Map';
 /*
 The component is child component for location search 
@@ -9,7 +9,7 @@ export default class Form extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        loc: ""
+      loc: '',
       };
     }
     /// state value updated from child component map;

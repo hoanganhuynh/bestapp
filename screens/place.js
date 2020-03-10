@@ -8,7 +8,7 @@ import {
 
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { SliderBox } from "react-native-image-slider-box";
-import { CustomButtonMapGo } from '../components/customBtnGoMap';
+import {CustomButtonMapGo} from '../components/customBtnGoMap';
 
 export default class Place extends React.Component {
     constructor(props) {
