@@ -1,10 +1,11 @@
 import React from 'react';
-import {StyleSheet, View, Text, ScrollView} from 'react-native';
+import {StyleSheet, View, Text, ScrollView, Image} from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {SliderBox} from 'react-native-image-slider-box';
 import {CustomButtonMapGo} from '../components/customBtnGoMap';
 import Axios from 'axios';
+import { FlatList } from 'react-native-gesture-handler';
 
 export default class Place extends React.Component {
   constructor(props) {
@@ -29,6 +30,7 @@ export default class Place extends React.Component {
         name: '',
         formatted_phone_number: '',
         rating: 0,
+        reviews: [],
       },
     };
   }
@@ -48,11 +50,12 @@ export default class Place extends React.Component {
   fetchData = async id => {
     const {key} = this.state;
     const result = await Axios.get(
-      `https://maps.googleapis.com/maps/api/place/details/json?place_id=${id}&fields=name,rating,formatted_phone_number&key=${key}`,
+      `https://maps.googleapis.com/maps/api/place/details/json?place_id=${id}&fields=opening_hours,vicinity,name,rating,formatted_phone_number,review&key=${key}`,
     );
     const data = result.data.result;
+    const newPlace = Object.assign(this.state.place, data);
     console.log(data);
-    this.setState({place: data});
+    this.setState({place: newPlace});
   };
   static navigationOptions = ({navigation}) => {
     return {
@@ -136,11 +139,32 @@ export default class Place extends React.Component {
           <View style={styles.priceIco}>
             <Icon
               style={styles.customIcoPrice}
-              name="tag"
+              name="clock"
               size={15}
               color="white"
-            />
-            <Text style={styles.price}>Bình Dân</Text>
+            /> 
+            {
+                place.opening_hours &&  
+                <Text style={styles.price}>
+                    Activity: {place.opening_hours.open_now ? 'Open' : 'Close'}
+                </Text>
+            }
+            {
+               !place.opening_hours && 
+                <Text style={styles.price}>
+                    Activity: Close
+                </Text>
+            }
+            {place.opening_hours && (
+            <FlatList
+              data={place.opening_hours.weekday_text}
+              keyExtractor={item => item.author_name}
+              renderItem={({item}) => (
+                <View style={styles.box}>
+                    <Text>{item}</Text>
+                </View>
+              )}
+              />)}
           </View>
 
           <View style={styles.priceIco}>
@@ -175,13 +199,21 @@ export default class Place extends React.Component {
                     longitudeDelta: 0.0421,
                     }}
                 /> */}
-          <Text style={styles.description}>
-            Bến Tre là một tỉnh thuộc vùng Đồng bằng sông Cửu Long, Việt Nam.
-            Tỉnh Bến Tre nằm ở cuối nguồn sông Cửu Long, tiếp giáp biển Đông với
-            chiều dài đường biển khoảng 65 km và các tỉnh Tiền Giang, Trà Vinh,
-            Vĩnh Long. Trung tâm của tỉnh Bến Tre cách Thành phố Hồ Chí Minh 87
-            km về phía Tây qua tỉnh Tiền Giang và Long An
-          </Text>
+            <View>
+                <Text>Review</Text>
+                <FlatList
+              data={place.reviews}
+              keyExtractor={item => item.author_name}
+              renderItem={({item}) => (
+                <View style={styles.box}>
+                    <Text style={styles.title}>{item.author_name}</Text>
+                    <Image style={{width: 50, height: 50}} source={{uri: item.profile_photo_url}}/>
+                    <Text style={styles.sub_title}>{item.relative_time_description}</Text>
+                    <Text style={styles.description}>{item.text}</Text>
+                </View>
+              )}
+            />
+            </View>
         </ScrollView>
       </View>
     );
@@ -194,6 +226,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 8,
     paddingTop: 16,
+  },
+  box: {
+    borderBottomColor: 'black',
+    borderBottomWidth: 1,
+  },
+  title: {
+    color: 'blue',
+  },
+  sub_title: {
+    fontSize: 10,
+  },
+  description: {
+    color: 'gray',
   },
   imgPlace: {
     resizeMode: 'stretch',
