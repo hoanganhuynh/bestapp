@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import {SliderBox} from 'react-native-image-slider-box';
 import {CustomButtonMapGo} from '../components/customBtnGoMap';
 import Axios from 'axios';
+import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 
 export default class Place extends React.Component {
   constructor(props) {
@@ -32,6 +33,19 @@ export default class Place extends React.Component {
       },
     };
   }
+  getInitialState() {
+    return {
+      region: {
+        latitude: 37.78825,
+        longitude: -122.4324,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      },
+    };
+  }
+  onRegionChange(region) {
+    this.setState({region});
+  }
   fetchData = async id => {
     const {key} = this.state;
     const result = await Axios.get(
@@ -42,7 +56,7 @@ export default class Place extends React.Component {
   };
   static navigationOptions = ({navigation}) => {
     return {
-      title: navigation.getParam('item').id,
+      title: navigation.getParam('item').name,
     };
   };
   componentDidMount() {
@@ -80,6 +94,7 @@ export default class Place extends React.Component {
                         style={styles.addressPlace}> {item.formatted_address} 
                     </Text>
                     <CustomButtonMapGo
+                        location={item.geometry}
                         title="Xem trên Google Map"
                     />
                 </View>
@@ -142,7 +157,14 @@ export default class Place extends React.Component {
                         {item.user_ratings_total}
                     </Text>
                 </View>
-            
+                {/* <MapView
+                    initialRegion={{
+                    latitude: 37.78825,
+                    longitude: -122.4324,
+                    latitudeDelta: 0.0922,
+                    longitudeDelta: 0.0421,
+                    }}
+                /> */}
                 <Text style={styles.description}>
                     Bến Tre là một tỉnh thuộc vùng Đồng bằng sông Cửu Long, Việt Nam. Tỉnh Bến Tre nằm ở cuối nguồn sông Cửu Long, tiếp giáp biển Đông với chiều dài đường biển khoảng 65 km và các tỉnh Tiền Giang, Trà Vinh, Vĩnh Long. Trung tâm của tỉnh Bến Tre cách Thành phố Hồ Chí Minh 87 km về phía Tây qua tỉnh Tiền Giang và Long An
                 </Text>

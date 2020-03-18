@@ -423,7 +423,7 @@ class Home extends Component {
           value={search}
           placeholder="Search"
         />
-        <Button onPress={this.handleSubmit} title="Solid Button" />
+        <Button onPress={this.handleSubmit} title="Search" />
         <FlatList
           data={places}
           keyExtractor={item => item.place_id}

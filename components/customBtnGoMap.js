@@ -9,14 +9,15 @@ import getDirections from 'react-native-google-maps-directions';
 
 export const CustomButtonMapGo = (props) => {
     const handleGetDirection  = () => {
+        const {location} = props;
         const datas = {
             source: {
-                latitude: 10.0291, 
-                longitude: 105.7695
+                latitude: location.lat, 
+                longitude: location.lng,
             },
             destination: {
-                latitude: 10.269355,
-                longitude: 106.072311
+                latitude: location.lat,
+                longitude: location.lng
             },
             params: [
                 {
