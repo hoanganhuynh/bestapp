@@ -122,17 +122,17 @@ export default class Place extends React.Component {
               }
             </Text>
           </View>
-
-          <View style={styles.priceIco}>
+            <View style={styles.priceIco}>
             <Icon
-              style={styles.customIcoPrice}
-              name="phone"
-              size={15}
-              color="white"
+                style={styles.customIcoPrice}
+                name="phone"
+                size={15}
+                color="white"
             />
-            <Text style={styles.price}>{place.formatted_phone_number}</Text>
-          </View>
-
+            <Text style={styles.price}>
+              {place.formatted_phone_number ? place.formatted_phone_number : 0}
+            </Text>
+           </View>
           <View style={styles.priceIco}>
             <Icon
               style={styles.customIcoPrice}
