@@ -1,12 +1,12 @@
 /*This is an example of AutoComplete Input/ AutoSuggestion Input*/
 import React, {Component} from 'react';
 //import react in our code.
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View, FlatList} from 'react-native';
 //import all the components we are going to use.
 import Autocomplete from 'react-native-autocomplete-input';
 import Axios from 'axios';
-//import Autocomplete component
-const API = 'https://swapi.co/api';
+
+import PlacesList from '../../components/placesItem';;
 //Demo base API to get the data for the Autocomplete suggestion
 class AutoCompleteInput extends Component {
   constructor(props) {
@@ -73,6 +73,15 @@ class AutoCompleteInput extends Component {
           ) : (
             <Text style={styles.infoText}>Enter The Places Title</Text>
           )}
+        </View>
+        <View>
+
+          <FlatList
+            data={places}
+            renderItem={({item}) => <PlacesList place={item} />}
+            keyExtractor={item => item.id}
+            contentContainerStyle={styles.container}
+          />
         </View>
       </View>
     );
