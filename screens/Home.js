@@ -416,14 +416,16 @@ class Home extends Component {
     const {search, places} = this.state;
     const {navigation} = this.props;
     return (
-      <View>
+      <View style={styles.container}>
         <SearchBar
-          lightTheme={true}
+          // lightTheme={true}
+          round={true}
           onChangeText={this.handleUpdate}
           value={search}
           placeholder="Search"
         />
         <Button onPress={this.handleSubmit} title="Search" />
+        <Text style={styles.titlePlace}>Địa điểm gợi ý</Text>
         <FlatList
           data={places}
           keyExtractor={item => item.place_id}
@@ -449,6 +451,11 @@ class Home extends Component {
   }
 }
 const styles = StyleSheet.create({
+  container: {
+    padding: 10,
+    backgroundColor: '#222',
+    height: '100%'
+  },
   box: {
     flex: 2,
     flexDirection: 'row',
@@ -457,7 +464,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   text: {
-    color: 'gray',
+    color: '#f5f5f5',
     width: 'auto',
   },
   box__body: {
@@ -467,6 +474,12 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     marginRight: 10,
+  },
+  titlePlace: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: 'dodgerblue',
+    marginVertical: 10
   },
 });
 export default Home;
